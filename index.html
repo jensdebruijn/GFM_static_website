@@ -724,7 +724,7 @@
       xhr.open("GET", './data.json.gz', true);
       xhr.responseType = "arraybuffer";
       xhr.onload = function () {
-        var result = pako.inflate(xhr.response, {to: 'string'});
+        var data = pako.inflate(xhr.response, {to: 'string'});
         events_per_area = data.events_per_area;
         areas = data.areas;
         var childs = new PruneClusterForLeaflet(120, 20, false);
