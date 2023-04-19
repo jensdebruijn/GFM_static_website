@@ -799,15 +799,7 @@
           }
         })
     
-        var timelines = timelineControl.timelines;
-        var endOfTimeline = 0;
-        for (var i = 0; i < timelines.length; i++) {
-          if (timelines[i].end > endOfTimeline) {
-            endOfTimeline = timelines[i].end;
-          };
-        };
-        console.log(endOfTimeline);
-        var timelineStartDate = endOfTimeline;
+        var timelineStartDate = 1503809110000;
     
         $(window).resize(function () {
           var yAnchor = 10;
