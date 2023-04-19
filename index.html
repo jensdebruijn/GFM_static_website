@@ -725,7 +725,6 @@
       xhr.responseType = "arraybuffer";
       xhr.onload = function () {
         var data = JSON.parse(pako.inflate(xhr.response, {to: 'string'}));
-        console.log(data);
         events_per_area = data.events_per_area;
         areas = data.areas;
         var childs = new PruneClusterForLeaflet(120, 20, false);
@@ -745,19 +744,6 @@
             } else {
               leafletMarker.setIcon(normalIconBlue);
             }
-          }).on("click", function(e) {
-            dialog.open();
-            resetSelectedLayer();
-            leafletMarker.setIcon(largeIconRed);
-            selectedLayer = leafletMarker;
-            timelineControl.pause();
-            if (e.zoom !== false && map.getZoom() < 5) {
-              map.flyTo(e.latlng, 5);
-              zoomed = true;
-            };
-            latestEventRequest = leafletMarker.feature.event.event_id;
-            setHeader(leafletMarker.feature);
-            setTweetTabContent(leafletMarker.feature);
           });
         };
         childs.BuildLeafletCluster = function(cluster, position) {
