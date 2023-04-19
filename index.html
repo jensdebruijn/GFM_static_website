@@ -838,7 +838,7 @@
         });
     
         var flyToLayer;
-        var content = '<h5 id="eventHeader" style="text-align:center;"></h5><div style="height:0px" class="event-tabs" id="tabs"><ul><li><a href="#tweets">Tweets</a></li></ul><div id="tweets"><div class="ui-tabs-panel-content tweetlist-leaflet-dialog" id="tweetsContent"><img id="explanation" src=' + "static/img/explanation_hand.jpg" + '><p align="center">Click on a flood event to display tweets</p></div></div></div>';
+        var content = '<h5 id="eventHeader" style="text-align:center;"></h5><div class="event-tabs" id="tabs"><ul><li style="height:0px"><a href="#tweets">Tweets</a></li></ul><div id="tweets"><div class="ui-tabs-panel-content tweetlist-leaflet-dialog" id="tweetsContent"><img id="explanation" src=' + "static/img/explanation_hand.jpg" + '><p align="center">Click on a flood event to display tweets</p></div></div></div>';
     
         dialog.setContent(content);
         dialog.addTo(map).freeze();
