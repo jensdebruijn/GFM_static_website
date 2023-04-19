@@ -720,157 +720,159 @@
     }
     
     function setFloodArea() {
-      fetch('./data.json')
-        .then((response) => response.json())
-        .then((data) => {
-          events_per_area = data.events_per_area;
-          areas = data.areas;
-          var childs = new PruneClusterForLeaflet(120, 20, false);
-          childs.Cluster.Size = 3;
-          childs.PrepareLeafletMarker = function(leafletMarker, data) {
-            leafletMarker.feature = data;
-            leafletMarker.setIcon(normalIconBlue);
-            leafletMarker.on("mouseover", function (e) {
-              if (selectedLayer == leafletMarker) {
-                leafletMarker.setIcon(largeIconRed);
-              } else {
-                leafletMarker.setIcon(largeIconBlue);
-              }
-            }).on("mouseout", function (e) {
-              if (selectedLayer == leafletMarker) {
-                leafletMarker.setIcon(normalIconRed);
-              } else {
-                leafletMarker.setIcon(normalIconBlue);
-              }
-            }).on("click", function(e) {
-              dialog.open();
-              resetSelectedLayer();
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", './data.json.gz', true);
+      xhr.responseType = "arraybuffer";
+      xhr.onload = function () {
+        var result = pako.inflate(xhr.response, {to: 'string'});
+        events_per_area = data.events_per_area;
+        areas = data.areas;
+        var childs = new PruneClusterForLeaflet(120, 20, false);
+        childs.Cluster.Size = 3;
+        childs.PrepareLeafletMarker = function(leafletMarker, data) {
+          leafletMarker.feature = data;
+          leafletMarker.setIcon(normalIconBlue);
+          leafletMarker.on("mouseover", function (e) {
+            if (selectedLayer == leafletMarker) {
               leafletMarker.setIcon(largeIconRed);
-              selectedLayer = leafletMarker;
-              timelineControl.pause();
-              if (e.zoom !== false && map.getZoom() < 5) {
-                map.flyTo(e.latlng, 5);
-                zoomed = true;
-              };
-              latestEventRequest = leafletMarker.feature.event.event_id;
-              setHeader(leafletMarker.feature);
-              setTweetTabContent(leafletMarker.feature);
-            });
-          };
-          childs.BuildLeafletCluster = function(cluster, position) {
-            var m = new L.Marker(position, {
-              icon: childs.BuildLeafletClusterIcon(cluster)
-            });
-      
-            m.on('click', function() {
-              resetSelectedLayer();
-              var markersArea = childs.Cluster.FindMarkersInArea(cluster.bounds);
-              var b = childs.Cluster.ComputeBounds(markersArea);
-              zoomed = true;
-              selectedLayer = cluster;
-      
-              if (b) {
-                var bounds = new L.LatLngBounds(
-                  new L.LatLng(b.minLat, b.maxLng),
-                  new L.LatLng(b.maxLat, b.minLng));
-      
-                var zoomLevelBefore = childs._map.getZoom();
-                var zoomLevelAfter = childs._map.getBoundsZoom(bounds, false, new L.Point(20, 20, null));
-      
-                if (zoomLevelAfter === zoomLevelBefore) {
-                  childs._map.fire('overlappingmarkers', {
-                    cluster: childs,
-                    markers: markersArea,
-                    center: m.getLatLng(),
-                    marker: m
-                  });
-                  childs._map.setView(position, zoomLevelAfter);
-                }
-                else {
-                  childs._map.flyToBounds(bounds);
-                }
-              }
-            });
-            return m;
-          };
-          var level0Timeline = createTimeline(events_per_area, areas, '0');
-          timelineControl.addTimelines(level0Timeline);
-          level0Timeline.addTo(map);
-          var level1Timeline = createTimeline(events_per_area, areas, '1', childs);
-          timelineControl.addTimelines(level1Timeline);
-          level1Timeline.addTo(map);
-      
-          map.on('zoom', function() {
-            if (map.getZoom() > 4) {
-              if (!map.hasLayer(childs)) {
-                map.addLayer(childs);
-              }
             } else {
-              map.removeLayer(childs);
+              leafletMarker.setIcon(largeIconBlue);
             }
-          })
-      
-          var timelines = timelineControl.timelines;
-          var endOfTimeline = 0;
-          for (var i = 0; i < timelines.length; i++) {
-            if (timelines[i].end > endOfTimeline) {
-              endOfTimeline = timelines[i].end;
+          }).on("mouseout", function (e) {
+            if (selectedLayer == leafletMarker) {
+              leafletMarker.setIcon(normalIconRed);
+            } else {
+              leafletMarker.setIcon(normalIconBlue);
+            }
+          }).on("click", function(e) {
+            dialog.open();
+            resetSelectedLayer();
+            leafletMarker.setIcon(largeIconRed);
+            selectedLayer = leafletMarker;
+            timelineControl.pause();
+            if (e.zoom !== false && map.getZoom() < 5) {
+              map.flyTo(e.latlng, 5);
+              zoomed = true;
             };
-          };
-          var timelineStartDate = endOfTimeline;
-      
-          $(window).resize(function () {
-            var yAnchor = 10;
-            maxDialogHeight = $('#map').height() - $('.leaflet-control-layers').height() - 48 - yAnchor;
-            var xAnchor = $('#map').width() - 400 - 23;
-            dialog.setLocation([yAnchor, xAnchor])
-            setTabContentSize();
+            latestEventRequest = leafletMarker.feature.event.event_id;
+            setHeader(leafletMarker.feature);
+            setTweetTabContent(leafletMarker.feature);
           });
-      
-          timelineControl.setTime(timelineStartDate, 'init');
-          timelineControl._timeSlider.value = timelineStartDate;
-      
-          $("#load-modal").modal('hide');
-          dataLoadComplete = true;
+        };
+        childs.BuildLeafletCluster = function(cluster, position) {
+          var m = new L.Marker(position, {
+            icon: childs.BuildLeafletClusterIcon(cluster)
+          });
+    
+          m.on('click', function() {
+            resetSelectedLayer();
+            var markersArea = childs.Cluster.FindMarkersInArea(cluster.bounds);
+            var b = childs.Cluster.ComputeBounds(markersArea);
+            zoomed = true;
+            selectedLayer = cluster;
+    
+            if (b) {
+              var bounds = new L.LatLngBounds(
+                new L.LatLng(b.minLat, b.maxLng),
+                new L.LatLng(b.maxLat, b.minLng));
+    
+              var zoomLevelBefore = childs._map.getZoom();
+              var zoomLevelAfter = childs._map.getBoundsZoom(bounds, false, new L.Point(20, 20, null));
+    
+              if (zoomLevelAfter === zoomLevelBefore) {
+                childs._map.fire('overlappingmarkers', {
+                  cluster: childs,
+                  markers: markersArea,
+                  center: m.getLatLng(),
+                  marker: m
+                });
+                childs._map.setView(position, zoomLevelAfter);
+              }
+              else {
+                childs._map.flyToBounds(bounds);
+              }
+            }
+          });
+          return m;
+        };
+        var level0Timeline = createTimeline(events_per_area, areas, '0');
+        timelineControl.addTimelines(level0Timeline);
+        level0Timeline.addTo(map);
+        var level1Timeline = createTimeline(events_per_area, areas, '1', childs);
+        timelineControl.addTimelines(level1Timeline);
+        level1Timeline.addTo(map);
+    
+        map.on('zoom', function() {
+          if (map.getZoom() > 4) {
+            if (!map.hasLayer(childs)) {
+              map.addLayer(childs);
+            }
+          } else {
+            map.removeLayer(childs);
+          }
+        })
+    
+        var timelines = timelineControl.timelines;
+        var endOfTimeline = 0;
+        for (var i = 0; i < timelines.length; i++) {
+          if (timelines[i].end > endOfTimeline) {
+            endOfTimeline = timelines[i].end;
+          };
+        };
+        var timelineStartDate = endOfTimeline;
+    
+        $(window).resize(function () {
           var yAnchor = 10;
           maxDialogHeight = $('#map').height() - $('.leaflet-control-layers').height() - 48 - yAnchor;
           var xAnchor = $('#map').width() - 400 - 23;
-          dialog = L.control.dialog({
-            size: [400, 0],
-            minSize: [400, 0],
-            maxSize: [10000, 10000],
-            position: 'topleft',
-            anchor: [yAnchor, xAnchor],
+          dialog.setLocation([yAnchor, xAnchor])
+          setTabContentSize();
+        });
+    
+        timelineControl.setTime(timelineStartDate, 'init');
+        timelineControl._timeSlider.value = timelineStartDate;
+    
+        $("#load-modal").modal('hide');
+        dataLoadComplete = true;
+        var yAnchor = 10;
+        maxDialogHeight = $('#map').height() - $('.leaflet-control-layers').height() - 48 - yAnchor;
+        var xAnchor = $('#map').width() - 400 - 23;
+        dialog = L.control.dialog({
+          size: [400, 0],
+          minSize: [400, 0],
+          maxSize: [10000, 10000],
+          position: 'topleft',
+          anchor: [yAnchor, xAnchor],
+        });
+    
+        map.on("dialog:updated", function () {
+          setTabContentSize();
+        });
+    
+        var flyToLayer;
+        var content = '<h5 id="eventHeader" style="text-align:center;"></h5><div class="event-tabs" id="tabs"><ul><li><a href="#tweets">Tweets</a></li></ul><div id="tweets"><div class="ui-tabs-panel-content tweetlist-leaflet-dialog" id="tweetsContent"><img id="explanation" src=' + "static/img/explanation_hand.jpg" + '><p align="center">Click on a flood event to display tweets</p></div></div></div>';
+    
+        dialog.setContent(content);
+        dialog.addTo(map).freeze();
+    
+        $('#explanation').imagesLoaded( function() {
+          setTabContentSize();
+        });
+    
+        $(function () {
+          $("#tabs").tabs({
+            activate: function activate(event, ui) {
+              activeTab = ui.newTab.index();
+              setTabContentSize();
+            }
           });
-      
-          map.on("dialog:updated", function () {
-            setTabContentSize();
-          });
-      
-          var flyToLayer;
-          var content = '<h5 id="eventHeader" style="text-align:center;"></h5><div class="event-tabs" id="tabs"><ul><li><a href="#tweets">Tweets</a></li></ul><div id="tweets"><div class="ui-tabs-panel-content tweetlist-leaflet-dialog" id="tweetsContent"><img id="explanation" src=' + "static/img/explanation_hand.jpg" + '><p align="center">Click on a flood event to display tweets</p></div></div></div>';
-      
-          dialog.setContent(content);
-          dialog.addTo(map).freeze();
-      
-          $('#explanation').imagesLoaded( function() {
-            setTabContentSize();
-          });
-      
-          $(function () {
-            $("#tabs").tabs({
-              activate: function activate(event, ui) {
-                activeTab = ui.newTab.index();
-                setTabContentSize();
-              }
-            });
-          });
-      
-          $(".ui-tabs-panel-content").on('resize ready', function () {
-            setTabContentSize();
-          });
-        }
-      )
+        });
+    
+        $(".ui-tabs-panel-content").on('resize ready', function () {
+          setTabContentSize();
+        });
+      }
+      xhr.send()
     }
     
     var map = L.map('map', {
