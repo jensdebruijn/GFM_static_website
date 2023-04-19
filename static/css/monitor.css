@@ -1,0 +1,556 @@
+.map{
+  position: fixed;
+  top: 50px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.map-no-frame{
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.blog-post > p {
+  text-align: justify;
+}
+
+.blog-post > figure > pre {
+  margin-bottom: 0px;
+}
+
+.blog-post > figure > img {
+  display: block;
+  margin: 0 auto;
+  max-width: 95%;
+}
+
+.blog-post > figure > figcaption {
+  text-align: center;
+  color: #44546a;
+  font-style: italic;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+ul.share-buttons{
+  list-style: none;
+  padding: 0;
+}
+
+ul.share-buttons li{
+  display: inline;
+}
+
+ul.share-buttons .sr-only{
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+.loading-dialog {
+  height: 20px !important;
+  width: 20px !important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.loading-header {
+  height: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.modal-body {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.leaflet-control-dialog .leaflet-control-dialog-inner{
+  padding: 0px 0px !important;
+}
+
+.leaflet-control-dialog .leaflet-control-dialog-inner .leaflet-control-dialog-contents{
+  padding: 0 0px !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-tabs {
+  flex: 1 auto auto;
+  overflow-y: hidden;
+  min-height: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-tabs {
+  padding: 0px !important;
+  border: 0px;
+}
+
+.ui-tabs .ui-tabs-nav {
+  padding: 2px 2px 0 !important;
+}
+
+.ui-widget-header {
+  border: 0px !important;
+}
+
+.ui-widget.ui-widget-content {
+  border: 0px !important;
+}
+
+.ui-tabs-panel {
+  padding: 0 !important;
+}
+
+.ui-tabs-panel-content > img {
+  display:block;
+  width: calc(100% - 20px);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.background-loading {
+  background: transparent url('/static/img/loading-grey.gif') center no-repeat;
+  height: 50px;
+  width: 50px;
+}
+
+.h-divider {
+  margin-top:25px;
+  margin-bottom:25px;
+  margin-left: 2.5%;
+  height:1px;
+  width:95%;
+  border-top:1px solid gray;
+}
+
+.paper-title {
+  margin-top: 10px;
+}
+
+.modal-body > h5 {
+  font-weight: bold;
+}
+
+.jsgif {
+  width: 100%
+}
+
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+    pointer-events:none;
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events:none;
+}
+.modal-content {
+    width:inherit;
+    height:inherit;
+    margin: 0 auto;
+    pointer-events: all;
+}
+
+.modal-loading-img {
+  width: 100%;
+  height: 20px;
+}
+
+.explanation > img {
+  display:block;
+  max-width: 95%;
+  max-height:200px;
+  height:auto;
+  width:auto;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.explanation > p {
+  width: 95%;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.slider {
+    position: absolute;
+    width:10%;
+    right:25px;
+    margin-top:30px;
+}
+
+.leaflet-bottom.leaflet-left{
+  width: 100%;
+}
+
+.leaflet-control-container .leaflet-timeline-controls {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.leaflet-custom-tweet-popup .leaflet-popup-content {
+   margin-top: 15px;
+   margin-left: 1px;
+   margin-right: 1px;
+   margin-bottom: 3px;
+}
+
+.leaflet-custom-tweet-popup .leaflet-popup-content-end {
+   margin: 5px 1px;
+}
+
+.tweetlist-leaflet-dialog {
+  overflow: hidden;
+}
+
+.tweetlist-leaflet-dialog > ul {
+  margin-bottom: 0px;
+}
+
+.tweetlist-leaflet-dialog > ul {
+   margin: 0 auto;
+}
+
+.tweetlist-leaflet-dialog > ul > li {
+   border: none;
+   border-top: 1px solid #ddd;
+}
+
+.tweetlist-leaflet-dialog > ul > li:nth-child(odd) {
+   background-color: #f9f9f9;
+}
+
+.leaflet-dialog-last-message {
+  color: #0078A8;
+  text-align: center;
+}
+
+.tweetlist-leaflet-dialog > ul > li > a {
+  color: #0078A8
+}
+
+.tweetlist-leaflet-dialog > ul > li > p > a {
+  color: #0078A8
+}
+
+.image-leaflet-dialog {
+  width: 100%;
+  padding: 3%;
+}
+
+.tweetlist-leaflet-popup {
+   max-height: 355px;
+   overflow-y: hidden;
+}
+
+.tweetlist-leaflet-popup > ul {
+   margin: 0 auto;
+}
+
+.tweetlist-leaflet-popup > ul > li {
+   border: none;
+   border-top: 1px solid #ddd;
+}
+
+.tweetlist-leaflet-popup > ul > li:nth-child(odd) {
+   background-color: #f9f9f9;
+}
+
+.leaflet-popup-last-message {
+  color: #0078A8;
+  text-align: center;
+}
+
+.image-leaflet-popup {
+  width: 100%;
+  padding: 3%;
+}
+
+.leaflet-control.leaflet-timeline-control {
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.leaflet-control.leaflet-timeline-control * {
+    vertical-align: middle;
+}
+
+.leaflet-control.leaflet-timeline-control input[type=range] {
+    width: 60%;
+    display: inline;
+    float: left;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 6.25px 0;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 7.5px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+  background: #3388ff;
+  border-radius: 25px;
+  border: 0px solid #010101;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0.8px 0.8px 1px #000000, 0px 0px 0.8px #0d0d0d;
+  border: 0.4px solid #000000;
+  height: 20px;
+  width: 14px;
+  border-radius: 20px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -6.25px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #4d97ff;
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 7.5px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+  background: #3388ff;
+  border-radius: 25px;
+  border: 0px solid #010101;
+}
+
+input[type=range]::-moz-range-thumb {
+  box-shadow: 0.8px 0.8px 1px #000000, 0px 0px 0.8px #0d0d0d;
+  border: 0.4px solid #000000;
+  height: 20px;
+  width: 14px;
+  border-radius: 20px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 7.5px;
+  border-width: 10px 0;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+input[type=range]::-ms-fill-lower {
+  background: #1979ff;
+  border: 0px solid #010101;
+  border-radius: 50px;
+  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+}
+
+input[type=range]::-ms-fill-upper {
+  background: #3388ff;
+  border: 0px solid #010101;
+  border-radius: 50px;
+  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+}
+
+input[type=range]::-ms-thumb {
+  box-shadow: 0.8px 0.8px 1px #000000, 0px 0px 0.8px #0d0d0d;
+  border: 0.4px solid #000000;
+  height: 20px;
+  width: 14px;
+  border-radius: 20px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+input[type=range]:focus::-ms-fill-lower {
+  background: #3388ff;
+}
+
+input[type=range]:focus::-ms-fill-upper {
+  background: #4d97ff;
+}
+
+.leaflet-control.leaflet-timeline-control .sldr-ctrl-container {
+    float: left;
+    width: 15%;
+    box-sizing: border-box;
+}
+
+.leaflet-control.leaflet-timeline-control .sldr-logos-container {
+    float: right;
+    width: 25%;
+}
+
+.leaflet-control.leaflet-timeline-control .sldr-logos-container img {
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.leaflet-control.leaflet-timeline-control .sldr-logos-container .floodtags-logo {
+    width: 38%;
+}
+
+.leaflet-control.leaflet-timeline-control .sldr-logos-container .ivm-logo {
+    width: 54%;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button {
+    position: relative;
+    width: 20%;
+    height: 20px;
+    border: none;
+    background: none;
+}
+
+.time-text {
+  /*font-weight: bold;*/
+  color: #000000;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button::before, .leaflet-control.leaflet-timeline-control .button-container button::after {
+    content: '';
+    position: absolute;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.play::before {
+    border: 7px solid transparent;
+    border-width: 7px 0 7px 10px;
+    border-left-color: black;
+    margin-top: -7px;
+    background: transparent;
+    margin-left: -5px;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.pause {
+    display: none;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.pause::before {
+    width: 11px;
+    height: 14px;
+    border: 4px solid black;
+    border-width: 0 4px;
+    margin-top: -7px;
+    margin-left: -6px;
+    background: transparent;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.prev::before, .leaflet-control.leaflet-timeline-control .button-container button.prev::after {
+    margin: -8px 0 0;
+    background: black;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.prev::before {
+    width: 2px;
+    height: 14px;
+    margin-top: -7px;
+    margin-left: -7px;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.prev::after {
+    border: 7px solid transparent;
+    border-width: 7px 10px 7px 0;
+    border-right-color: black;
+    margin-top: -7px;
+    margin-left: -5px;
+    background: transparent;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.next::before, .leaflet-control.leaflet-timeline-control .button-container button.next::after {
+    margin: -8px 0 0;
+    background: black;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.next::before {
+    width: 2px;
+    height: 14px;
+    margin-top: -7px;
+    margin-left: 5px;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.next::after {
+    border: 7px solid transparent;
+    border-width: 7px 0 7px 10px;
+    border-left-color: black;
+    margin-top: -7px;
+    margin-left: -5px;
+    background: transparent;
+}
+
+.leaflet-control.leaflet-timeline-control.playing button.pause {
+    display: inline-block;
+}
+
+.leaflet-control.leaflet-timeline-control.playing button.play {
+    display: none;
+}
+
+hr {
+  width: 80%s;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #3b3838;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+}
+
+hr.style-eight {
+  width: 90%s;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: visible; /* For IE */
+  padding: 0;
+  border: none;
+  border-top: medium double #333;
+  color: #333;
+  text-align: center;
+}
+hr.style-eight:after {
+  content: "§";
+  display: inline-block;
+  position: relative;
+  top: -0.7em;
+  font-size: 1.5em;
+  padding: 0 0.25em;
+  background: white;
+}

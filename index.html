@@ -1,0 +1,1013 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@VU_IVM" />
+    <meta name="twitter:creator" content="@VU_IVM" />
+    <meta property="og:site_name" content="Global Flood Monitor"/>
+    <meta property="og:title" content="Global Flood Monitor"/>
+    <meta property="og:description" content="This global flood monitor is based on a new algorithm that uses Twitter to locate and detect floods in real-time on a global scale. In addition, the platform allows viewing of three years of historic floods"/>
+    <meta property="og:image" content="https://www.globalfloodmonitor.orgstatic/img/open_graph_preview.jpg">
+    <meta property="og:url" content="https://www.globalfloodmonitor.org/">
+    <meta property="og:type" content="website" />
+
+    <meta name="description" content="This global flood monitor is based on a new algorithm that uses Twitter to locate and detect floods in real-time on a global scale. In addition, the platform allows viewing of three years of historic floods">
+    <meta name="keywords" content="Twitter, Social Media, Floods, Flooding, Monitoring, Detection, Geoparsing, Geotagging, Geocoding">
+    <meta name="author" content="IVM & FloodTags">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Global Flood Monitor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css"/>
+    <link rel="stylesheet" href="static/css/main.css" />
+    <link rel="shortcut icon" href="static/img/favicon.ico">
+    <link rel="stylesheet" href="static/css/monitor.css" />
+    <link rel="stylesheet" href="static/css/PruneCluster.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-easybutton@2.2.4/src/easy-button.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-dialog@1.0.3/Leaflet.Dialog.css"/>
+    <script src="static/js/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/esri-leaflet/2.1.1/esri-leaflet.js"></script>
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+    <script src="static/js/jquery-ui.min.js"></script>
+    <script src="static/js/IntervalTree.js"></script>
+    <script src="static/js/Timeline.js"></script>
+    <script src="static/js/TimelineSliderControl.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-notify@3.1.3/bootstrap-notify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.EasyButton/2.2.4/easy-button.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-dialog@1.0.3/Leaflet.Dialog.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mapbox/geojson-extent@0.3.2/geojson-extent.js"></script>
+    <script src="static/js/PruneCluster.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106789949-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments)};
+      gtag('js', new Date());
+      gtag('config', 'UA-106789949-1');
+    </script>
+  </head>
+  <body>
+      <header>
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Global Flood Monitor</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <ul class="nav navbar-nav">
+                <li><a class="modal-toggle" href="#" data-toggle="modal" data-target="#about-modal">About</a></li>
+                <li><a class="modal-toggle" href="#" data-toggle="modal" data-target="#research-modal">Research</a></li>
+                <li><a class="modal-toggle" href="#" data-toggle="modal" data-target="#download-modal">Download data</a></li>
+                <li><a class="modal-toggle" href="#" data-toggle="modal" data-target="#api-modal">API</a></li>
+                <li><a class="modal-toggle" href='#' data-toggle="modal" data-target="#contact-modal">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+    <section>
+      <div class='map' id="map"></div>
+      <div class="modal fade info" id="research-modal" tabindex="-1">
+        <div class="vertical-alignment-helper">
+          <div class="modal-dialog modal-lg vertical-align-center">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close modal-dismiss" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Research</h4>
+              </div>
+              <div class="modal-body">
+                <h4 class="paper-title"><a href="https://doi.org/10.1038/s41597-019-0326-9" target="_blank">1. A global database of historic and real-time flood events based on social media</a></h4>
+                <p>
+                  <i>Jens A. de Bruijn, Hans de Moel, Brenden Jongman, Marleen C. de Ruiter, Jurjen Wagemaker, Jeroen C.J.H. Aerts</i>
+                </p>
+                <p>
+                  <strong>Abstract:</strong> Early event detection and response can significantly reduce the societal impact of floods. Currently, early warning systems rely on gauges, radar data, models and informal local sources. However, the scope and reliability of these systems are limited. Recently, the use of social media for detecting disasters has shown promising results, especially for earthquakes. Here, we present a new database for detecting floods in real-time on a global scale using Twitter. The method was developed using 88 million tweets, from which we derived over 10.000 flood events (i.e., flooding occurring in a country or first order administrative subdivision) across 176 countries in 11 languages in just over four years. Using strict parameters, validation shows that approximately 90% of the events were correctly detected. In countries where the first official language is included, our algorithm detected 63% of events in NatCatSERVICE disaster database at admin 1 level. Moreover, a large number of flood events not included in NatCatSERVICE are detected. All results are publicly available on www.globalfloodmonitor.org.
+                </p>
+                <p>
+                  <strong>Cite as: </strong> de Bruijn, J. A., de Moel, H., Jongman, B., de Ruiter, M.C., Wagemaker, J., & Aerts, J.C.H. (2019). A global database of historic and real-time flood events based on social media. <i>Scientific Data</i>, <b>6</b>, 311 https://doi.org/doi:10.1038/s41597-019-0326-9
+                </p>
+                <p>
+                  <strong>Find the code on <a href="https://github.com/jensdebruijn/Global-Flood-Monitor" target="_blank">GitHub</a></strong>
+                </p>
+                <hr class="style-eight">
+                <h4 class="paper-title"><a href="https://doi.org/10.1007/s41651-017-0010-6" target="_blank">2. TAGGS: Grouping Tweets to Improve Global Geoparsing for Disaster Response</a></h4>
+                <p>
+                  <i>Jens A. de Bruijn, Hans de Moel, Brenden Jongman, Jurjen Wagemaker, Jeroen C.J.H. Aerts</i>
+                </p>
+                <p>
+                  <strong>Abstract:</strong> Timely and accurate information about ongoing events are crucial for relief organizations seeking to effectively respond to disasters. Recently, social media platforms, especially Twitter, have gained traction as a novel source of information on disaster events. Unfortunately, geographical information is rarely attached to tweets, which hinders the use of Twitter for geographical applications. As a solution, geoparsing algorithms extract and can locate geographical locations referenced in a tweet’s text. This paper describes TAGGS, a new algorithm that enhances location disambiguation by employing both metadata and the contextual spatial information of groups of tweets referencing the same location regarding a specific disaster type. Validation demonstrated that TAGGS approximately attains a recall of 0.82 and precision of 0.91. Without lowering precision, this roughly doubles the number of correctly found administrative subdivisions and cities, towns and villages as compared to individual geoparsing. We applied TAGGS to 55.1 million flood-related tweets in 12 languages, collected over 3 years. We found 19.2 million tweets mentioning one or more flood locations, which can be towns (11.2 million), administrative subdivisions (5.1 million), or countries (4.6 million). In the future, TAGGS could form the basis for a global event detection system.
+                </p>
+                <p>
+                  <strong>Cite as: </strong> de Bruijn, J. A., de Moel, H., Jongman, B., Wagemaker, J., & Aerts, J.C.H. (2018). TAGGS: Grouping tweets to improve global geoparsing for disaster response. <i>Journal of Geovisualization and Spatial Analysis</i>, 2(1), 2 https://doi.org/10.1007/s41651-017-0010-6
+                </p>
+                <p>
+                  <strong>Find the code on <a href="https://github.com/jensdebruijn/TAGGS" target="_blank">GitHub</a></strong>
+                </p>
+                <hr class="style-eight">
+                <h4 class="paper-title"><a href="https://doi.org/10.1016/j.cageo.2020.104485" target="_blank">3. Improving the classification of flood tweets with contextual hydrological information in a multimodal neural network</a></h4>
+                <p>
+                  <i>Jens A. de Bruijn, Hans de Moel, Albrecht H. Weerts, Marleen C. de Ruiter, Erkan Basar, Dirk Eilander, Jeroen C.J.H. Aerts</i>
+                </p>
+                <p>
+                  <strong>Abstract:</strong> While text classification can classify tweets, assessing whether a tweet is related to an ongoing flood event or not, based on its text, remains difficult. Inclusion of contextual hydrological information could improve the performance of such algorithms. Here, a multilingual multimodal neural network is designed that can effectively use both textual and hydrological information. The classification data was obtained from Twitter using flood-related keywords in English, French, Spanish and Indonesian. Subsequently, hydrological information was extracted from a global precipitation dataset based on the tweet's timestamp and locations mentioned in its text. Three experiments were performed analyzing precision, recall and F1-scores while comparing a neural network that uses hydrological information against a neural network that does not. Results showed that F1-scores improved significantly across all experiments. Most notably, when optimizing for precision the neural network with hydrological information could achieve a precision of 0.91 while the neural network without hydrological information failed to effectively optimize. Moreover, this study shows that including hydrological information can assist in the translation of the classification algorithm to unseen languages.
+                </p>
+                <p>
+                  <strong>Cite as: </strong> de Bruijn, J.A., de Moel, H., Weerts, A.H., de Ruiter, M.C., Basar, E., Eilander, D. and Aerts, J.C., (2020). Improving the classification of flood tweets with contextual hydrological information in a multimodal neural network. <i>Computers and Geosciences</i>, 140 https://doi.org/10.1016/j.cageo.2020.104485
+                </p>
+                <p>
+                  <strong>Find the code on <a href="https://github.com/jensdebruijn/Multimodal-flood-tweet-classification" target="_blank">GitHub</a></strong>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade info" id="download-modal" tabindex="-1">
+        <div class="vertical-alignment-helper">
+          <div class="modal-dialog modal-lg vertical-align-center">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close modal-dismiss" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Download</h4>
+              </div>
+              <div class="modal-body">
+                <p>
+                  Download all events <a href="/_download_events"><b>here</b></a>.
+                <p>
+                <p>
+                  Explanation of variables:
+                  <ul>
+                    <li>
+                      <b>event_ID: </b> ID of the event
+                    </li>
+                    <li>
+                      <b>location_ID: </b> ID for location
+                    </li>
+                    <li>
+                      <b>location_ID_url: </b>url for location_ID
+                    </li>
+                    <li>
+                      <b>Name: </b> name of the area
+                    </li>
+                    <li>
+                      <b>Type: </b> administrative level of the detected event (country/first order administrative subdivision)
+                    </li>
+                    <li>
+                      <b>country_location_ID: </b> Location ID for the country
+                    </li>
+                    <li>
+                      <b>country_ISO3: </b> ISO3-code for the country
+                    </li>
+                    <li>
+                      <b>Start: </b>start of the event
+                    </li>
+                    <li>
+                      <b>End: </b>end of the event
+                    </li>
+                    <li>
+                      <b>Time of detection: </b>the time that the event was detected
+                    </li>
+                  </ul>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade info" id="api-modal" tabindex="-1">
+        <div class="vertical-alignment-helper">
+          <div class="modal-dialog modal-lg vertical-align-center">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close modal-dismiss" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">API</h4>
+              </div>
+              <div class="modal-body">
+                <p>
+                  Please <a href="/contact">contact us</a> to obtain API access.
+                <p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade info" id="contact-modal" tabindex="-1">
+        <div class="vertical-alignment-helper">
+          <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close modal-dismiss" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Contact</h4>
+              </div>
+              <div class="modal-body" style="padding 30px">
+                <div class="row">
+                  <div class="col-sm-9">
+                    <strong>Jens de Bruijn </strong>(for research)<br>
+                      PhD Researcher <i>@ Institute for Environmental Studies</i><br>
+                      Research Scholar <i>@ IIASA</i>
+                    <br><br>
+                    <i class="fa fa-envelope-o"></i> <a href="mailto:jens.de.bruijn@vu.nl">jens.de.bruijn@vu.nl</a><br>
+                    <i class="fa fa-book"></i> <a href="https://www.researchgate.net/profile/Jens_De_Bruijn" target="_blank">ResearchGate</a> / <a href="https://scholar.google.nl/citations?user=Oc4mTEwAAAAJ&hl=en&oi=sra" target="_blank">Google Scholar</a><br>
+                    <i class="fa fa-linkedin"></i> <a href="https://www.linkedin.com/in/jensdebruijn/" target='_blank' rel="noopener noreferrer">LinkedIn</a><br>
+                    <i class="fa fa-twitter"></i> <a href="https://twitter.com/jens_debruijn" target='_blank' rel="noopener noreferrer">Twitter</a>
+                  </div>
+                  <div class="col-sm-3">
+                    <img src="static/img/Jens.jpg" style="width: 100%"/>
+                  </div>
+                </div>
+                <div class="h-divider"></div>
+                <div class="row">
+                  <div class="col-sm-9">
+                    <strong>Jurjen Wagemaker </strong>(for applications)<br>
+                      Director <i>@ FloodTags</i><br>
+                    <br><br>
+                    <i class="fa fa-envelope-o"></i> <a href="mailto:wagemaker@floodtags.com">wagemaker@floodtags.com</a><br>
+                    <i class="fa fa-linkedin"></i> <a href="https://www.linkedin.com/in/jurjen-wagemaker-15319015" target='_blank' rel="noopener noreferrer">LinkedIn</a><br>
+                    <i class="fa fa-twitter"></i> <a href="https://twitter.com/jurjenwagemaker" target='_blank' rel="noopener noreferrer">Twitter</a>
+                  </div>
+                  <div class="col-sm-3">
+                    <img src="static/img/Jurjen.png" style="width: 100%"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade info" id="share-modal" tabindex="-1">
+        <div class="vertical-alignment-helper">
+          <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close modal-dismiss" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Share</h4>
+              </div>
+              <div class="modal-body text-center" style="padding 30px">
+                <ul class="share-buttons">
+                  <li><a href="https://twitter.com/intent/tweet?source=&text=:%20" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + getShareUrl()); return false;"><img alt="Tweet" src="static/img/Twitter.png" /></a></li>
+                  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=&title=&summary=&source=" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + getShareUrl() + '&title=' +  encodeURIComponent(document.title) + '&summary=This global flood monitor is based on a new algorithm that uses Twitter to locate and detect floods in real-time on a global scale.'); return false;"><img alt="Share on LinkedIn" src="static/img/LinkedIn.png" /></a></li>
+                  <li><a href="mailto:?subject=&body=:%20" target="_blank" title="Send email" onclick="window.open('mailto:?subject=' + encodeURIComponent(document.title) + '&body=' +  getShareUrl()); return false;"><img alt="Send email" src="static/img/Email.png" /></a></li>
+                </ul>
+                <p><i>- or copy -</i></p>
+                <span id="share-link"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade info" id="about-modal" tabindex="-1">
+        <div class="vertical-alignment-helper">
+          <div class="modal-dialog modal-lg vertical-align-center">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close modal-dismiss" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">About</h4>
+              </div>
+              <div class="modal-body blog-post" style="padding 30px">
+                <h3 class="paper-title">Global Flood Detection and Monitoring using Social Media</h3>
+                <h4 class="paper-title"><i>A new tool for disaster response and validation of flood risk models</i></h4>
+                <p>
+                  <b>Jens A. de Bruijn<sup>1,2</sup>, Hans de Moel<sup>1</sup>, Brenden Jongman<sup>1,3</sup>, Marleen C. de Ruiter<sup>1</sup>, Jurjen Wagemaker<sup>2</sup>, Jeroen C.J.H. Aerts<sup>1</sup></b>
+                </p>
+                <p style="font-size: 10px;">
+                  <sup>1</sup> Institute for Environmental Studies, VU University, De Boelelaan 1087, 1081HV Amsterdam, The Netherlands<br>
+                  <sup>2</sup> FloodTags, Binckhorstlaan 36 M2.11, The Hague, 2516 BE, The Netherlands<br>
+                  <sup>3</sup> Global Facility for Disaster Reduction and Recovery, World Bank Group, Washington D.C., 20433, USA
+                </p>
+                <p>
+                  Over the last 10 years, floods have caused 400 billion euros in damage and caused almost 60.000 casualties. Research shows that rapid response efforts are often hampered due to a lack of timely and useful information. Usually, floods are detected and monitored using hydrological models or satellite imagery. However, many flood events remain unreported and the average time-lapse between start of a flood and flood detected by response organizations is large. More recently, people and organizations have increasingly started using information from online media (e.g., Twitter, Facebook, WhatsApp, news articles and blog posts) to monitor flood events.
+                </p>
+                <p>
+                  As part of ongoing research into the use of online media in flood monitoring, researchers at the Institute for Environmental Studies (IVM - VU University Amsterdam) and FloodTags released a new paper<sup><a href="#fn1" id="ref1">1</a></sup> and tool that globally detects and monitors flood events. It provides a real-time overview of ongoing flood events based on filtered Twitter data. Specifically, the global flood monitor (GFM) detects, in real-time, regions with enhanced flood-related Twitter activity and classifies these as flood events. Then, it generates a world-map visualizing these events (<a href="#fig1" id="reffig1">Figure 1</a>) and their relevant tweets. The platform also provides access to historical events dating back to July 2014.
+                </p>
+                <figure id="fig1">
+                  <img src="static/img/blog_fig_1.png"/>
+                  <figcaption>Figure 1: The events detected by the global flood monitor at January 26, 2017.<a href="#reffig1" title="Jump back to figure 1 reference in the text.">↩</a></figcaption>
+                </figure>
+                <h5>Data collection and filtering</h5>
+                <p>
+                  FloodTags collects, among other data, real-time Twitter data using Twitter’ streaming API. The GFM utilizes this data in 12 languages using the keywords as specified in (<a href="#tab1" id="reftab1">Table 1</a>).
+                </p>
+                <figure id="tab1">
+                  <table class="table">
+                    <tr>
+                      <th>Language</th>
+                      <th>Keywords</th>
+                    </tr>
+                    <tr>
+                      <td>English</td>
+                      <td><i>flood, floods, flooding, flooded, inundation, inundations, inundated</i></td>
+                    </tr>
+                    <tr>
+                      <td>Indonesian</td>
+                      <td><i>banjir, banjirjkt, bantubanjir</i></td>
+                    </tr>
+                    <tr>
+                      <td>Filipino</td>
+                      <td><i>baha, bumabaha, pagbaha</i></td>
+                    </tr>
+                    <tr>
+                      <td>French</td>
+                      <td><i>inonder, inondation</i></td>
+                    </tr>
+                    <tr>
+                      <td>German</td>
+                      <td><i>flut, hochwasser, Überflutung</i></td>
+                    </tr>
+                    <tr>
+                      <td>Italian</td>
+                      <td><i>inondazione, inondacioni, alluvione</i></td>
+                    </tr>
+                    <tr>
+                      <td>Dutch</td>
+                      <td><i>overstroming</i></td>
+                    </tr>
+                    <tr>
+                      <td>Polish</td>
+                      <td><i>powódź, powodzie</i></td>
+                    </tr>
+                    <tr>
+                      <td>Serbian</td>
+                      <td><i>poplava, poplave, поплава, поплаве</i></td>
+                    </tr>
+                    <tr>
+                      <td>Portuguese</td>
+                      <td><i>inundação, inundacão, inundaçao, inundacao, inundações</i></td>
+                    </tr>
+                    <tr>
+                      <td>Spanish</td>
+                      <td><i>inundación, inundacion, inundar, inundaciones</i></td>
+                    </tr>
+                    <tr>
+                      <td>Turkish</td>
+                      <td><i>su taşkın, su baskını, sel bastı, sel suyu, sel yüzünden, taşkın oldu, sel suyunun</i></td>
+                    </tr>
+                  </table>
+                  <figcaption>Table 1: Languages and keywords used for the global flood monitor.<a href="#reftab1" title="Jump back to table 1 reference in the text.">↩</a></figcaption>
+                </figure>
+                <p>
+                  On average this amounts to roughly 75,000 flood-related tweets a day. Naturally, the number of tweets highly varies depending on the characteristics of currently ongoing flood events. For example, when Hurricane Harvey made landfall in the USA, upwards of 600,000 tweets were posted within 24 hours.
+                </p>
+                <h5>Location extraction</h5>
+                <p>
+                  To detect enhanced Twitter activity in regions, locations need to be attached to tweets. Unfortunately, merely ~2% of tweets have the GPS location of the user at the time of posting available. An additional problem in using these GPS locations is that when a major flood event occurs, such as the hurricanes that hit several countries around the Caribbean Sea and the Gulf of Mexico, these events might receive news coverage from all around the world. This might result in enhanced flood-related activity in many locations around the world.
+                </p>
+                <p>
+                  Therefore, we created the TAGGS-algorithm<sup><a href="#fn2" id="ref2">2</a>,</sup><sup><a href="#fn3" id="ref3">3</a></sup> (Toponym-based Algorithm for Grouped Geoparsing of Social media) to find mentions of locations (i.e., countries, administrative subdivision, cities, towns and villages) in tweets. This roughly employs two steps: 1) toponym recognition and 2) toponym disambiguation. In the first step the sentence is split up into individual words (unigram) as well sequences of individual words up to a length of 3 (bigrams and trigrams). These n-grams are then matched to the near-comprehensive set of geographical locations (gazetteer) as created using the GeoNames database<sup><a href="#fn4" id="ref4">4</a></sup> (<a href="#fig2" id="reffig2">Figure 2</a>).
+                </p>
+                <figure id="fig2">
+                <pre>
+                <code>[
+                  {
+                    "geonameid": 2655138,
+                    "coordinates": [
+                      -0.02664,
+                      52.97633
+                    ],
+                    "time_zone": "Europe/London",
+                    "country_geonameid": 2635167,
+                    "adm1_geonameid": 2644486,
+                    "feature_code": "PPL",
+                    "feature_class": "P",
+                    "type": "town",
+                  },
+                  ...
+                  {
+                    "geonameid": 4930956,
+                    "coordinates": [
+                      -71.05977,
+                      42.35843
+                    ],
+                    "time_zone": "America/New_York",
+                    "country_geonameid": 6252001,
+                    "adm1_geonameid": 6254926,
+                    "feature_code": "PPLA",
+                    "feature_class": "P",
+                    "type": "town",
+                  }
+                ]</code></pre>
+                <figcaption>Figure 2: JSON-representation of the entry for Boston in the Gazetteer.<a href="#reffig2" title="Jump back to figure 2 reference in the text.">↩</a></figcaption>
+                </figure>
+                <p>
+                  Unfortunately, many place names (toponyms) can refer to multiple locations (e.g., Boston, UK and Boston, Massachusetts, USA). To disambiguate the toponyms, the algorithm first groups all tweets mentioning the same toponyms within a 24-hour timeframe. Then for all tweets within these groups, additional spatial indicators, such as user time zone, user home town, GPS location and other location mentions in a tweet’s text are analyzed. Based on these indicators the most likely location is selected for all tweets within the group (<a href="#fig3" id="reffig3">Figure 3</a>).
+                </p>
+                <figure id="fig3">
+                <pre>
+                <code>{
+                  "id": 495901924215250944
+                  "date": "2014-08-03T12:00:06",
+                  "retweet": false,
+                  "text": "Red River at Grand Forks is 18.53 feet, -9.47 feet of flood stage,  -35.82 feet of 1997 crest. #RRVFlood14",
+                  "lang": "en",
+                  "user": {
+                    "utc_offset": -18000,
+                    "time zone": "Central Time (US & Canada)",
+                    "location": "Grand Forks, ND",
+                  },
+                  "locations": [
+                    {
+                      "score": 1,
+                      "toponym": "grand forks",
+                      "country_geonameid": 6252001,
+                      "geonameid": 5059429,
+                      "coordinates": [
+                        -97.03285,
+                        47.92526
+                      ],
+                      "adm1_geonameid": 5690763,
+                      "type": "town"
+                    }
+                  ]
+                }</code></pre>
+                <figcaption>Figure 3: JSON-representation of a tweet with an assigned location (Grand Forks).<a href="#reffig3" title="Jump back to figure 3 reference in the text.">↩</a></figcaption>
+                </figure>
+                <h5>Filtering</h5>
+                <p>
+                  Because not all tweets that mention a flood-related keyword are about ongoing flood events and a large number of tweets contain duplicate information, the tweets are subsequently filtered. First, we trained a classification algorithm based on a neural network (BERT<sup><a href="#fn5" id="ref5">5</a></sup>), and use this to discard tweets that are not about ongoing flood events. Next, we discard (near-) duplicate information, by not considering a) retweets, b) tweets by users that already posted a flood-related tweet in the last 14 days about that particular region and c) tweets where 5 or more consecutive words matched those of on of the previous 100 tweets about a region.
+                </p>
+                <h5>Event detection</h5>
+                <p>
+                  The GFM conducts event detection at the level of a country and their first order administrative subdivisions (e.g., provinces in the Netherlands and states in the USA). Based on the locations mentioned, tweets are assigned to these regions. Tweets mentioning a country are assigned to the country and tweets mentioning a first order administrative subdivision or a geographic entity therein are assigned to the first order administrative subdivisions.
+                </p>
+                <p>
+                  Then, burst detection is performed by analyzing the time difference between several consecutive tweets assigned to a region. When the time difference between several consecutive tweets falls below a region-specific threshold, this burst is classified as a flood event. An example thereof is given in <a href="#fig4" id="reffig4">Figure 4</a> for the Rift Valley Province in Kenya.
+                </p>
+                <figure id="fig4">
+                  <img src="static/img/blog_fig_4.png"/>
+                  <figcaption>Figure 4: Event in the Rift Valley Province, Kenya.<a href="#reffig4" title="Jump back to figure 4 reference in the text.">↩</a></figcaption>
+                </figure>
+                <h5>Potential applications</h5>
+                <p>
+                  <ul>
+                    <li><b>Flood awareness</b><br>The GFM demonstrates the prevalence of floods in the world and their impact on communities. The tweets, often sent by affected people, show that, almost on a daily basis, people need to be evacuated, lose their homes and even lose their lives due to floods. Even though many people work towards reducing flood risk and mitigating their impact, further efforts to reduce the impact of flood events on people’s lives are required.</li>
+                    <li><b>Disaster response</b><br>Disaster relief organizations increasingly use online media to improve their situation awareness. The <a href="https://dashboard.floodtags.com" target="_blank">FloodTags dashboard</a> uses, after careful validation within a specific region, parts of the GFM. In the dashboard and corresponding API’s, localized tweets are combined with other information (e.g., WhatsApp, rainfall measurements, river discharge data, maps of likely flooded and impacted areas) to create a tool that can be used to enhance the situation awareness of local aid organizations. This dashboard is currently operational at the Philippine and Tanzanian Red Cross.</li>
+                    <li><b>Reference database</b><br>Many minor flooding events remain unreported. Although social media cannot provide an extensive overview of all flood events, many events that are not available in other disaster databases are detected. The platform also provides access to these historic events going back to July 2014. These historic events can be used, for example, as a reference for validation of various flood risk models and historic flood mapping. It should be noted, that the available events are not manually validated and are incomplete. Before using the data, the user should carefully assess the quality of the data for their application (or contact FloodTags or IVM for support in this).</li>
+                    <li><b>Social media guided satellite tasking</b><br>Finally, when satellites observe the earth, their cameras can be pointed towards areas of interest. When a flood event is detected using, for example social media, these satellites can be tasked to observe the impacted area and thus provide more information about a specific  event.</li>
+                  </ul>
+                </p>
+                <hr style="border-top:1px solid #000000"></hr>
+                <sup id="fn1">1. de Bruijn, Jens A., et al. Scientific Data 6.1 (2019): 1-12. <a href="https://doi.org/10.1038/s41597-019-0326-9" target="_blank">https://doi.org/10.1038/s41597-019-0326-9</a><a href="#ref1" title="Jump back to footnote 1 in the text.">↩</a></sup><br>
+                <sup id="fn2">2. de Bruijn, Jens A., et al. Journal of Geovisualization and Spatial Analysis 2.1 (2018): 2. <a href="https://doi.org/10.1007/s41651-017-0010-6" target="_blank">https://doi.org/10.1007/s41651-017-0010-6</a><a href="#ref2" title="Jump back to footnote 2 in the text.">↩</a></sup><br>
+                <sup id="fn3">3. <a href="https://github.com/jensdebruijn/TAGGS" target="_blank">TAGGS source code on GitHub</a><a href="#ref3" title="Jump back to footnote 3 in the text.">↩</a></sup><br>
+                <sup id="fn4">4. <a href="http://www.geonames.org" target="_blank">www.geonames.org</a><a href="#ref4" title="Jump back to footnote 4 in the text.">↩</a></sup><br>
+                <sup id="fn5">5. Devlin, Jacob, et al. arXiv preprint arXiv:1810.04805 (2018). <a href="http://arxiv.org/abs/1810.04805" target="_blank">http://arxiv.org/abs/1810.04805</a><a href="#ref5" title="Jump back to footnote 5 in the text.">↩</a></sup><br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+      <div class="modal fade info" id="info-modal" tabindex="-1">
+        <div class="vertical-alignment-helper">
+          <div class="modal-dialog modal-explanation vertical-align-center">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close modal-dismiss">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Info</h4>
+              </div>
+              <div class="modal-body explanation">
+                <p align="center">
+                  The Global Flood Monitor detects flood events by automatically analyzing tweets in 11 languages*. Both the historic and real-time events are shown here. <a class="modal-toggle" href="#" data-toggle="modal" data-target="#about-modal">Click here for more information.</a>
+                </p>
+                <img src="static/img/explanation_hand.jpg"/>
+                <p align="center">
+                  <i>Click on a flood event to display tweets.</i>
+                </p>
+                <img src="static/img/explanation_slider.png"/>
+                <p align="center">
+                  <i>Move the slider, or use the play buttons to display floods through time.</i>
+                </p>
+                <hr>
+                <p style="font-size:12px;">
+                  <strong>*Please note that the displayed data has not been validated and manually calibrated on a country by country basis and should thus not be used for decision making.</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" data-keyboard="false" data-backdrop="false" id="load-modal" tabindex="-1">
+        <div class="vertical-alignment-helper">
+          <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+              <div class="modal-body">
+                <img class="modal-loading-img" src="static/img/loading-bar.gif">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+  <script src="static/js/bootstrap.min.js"></script>
+  <script>
+    "use strict";
+        
+    var dataLoadComplete = false;
+    var locations;
+    var selectedLayer;
+    var zoomed = false;
+    var maxDialogHeight;
+    var dialog;
+    var latestEventRequest;
+    var activeTab = 0;
+    var floodAreas;
+    var loadingIMG = "static/img/loading-grey.gif";
+    var homeBounds = [[-65, 180], [70, -180]];
+    var baseUrl = window.location.protocol + "//" + window.location.host + "/";
+    var defaultEventFillColor = '#3388ff'
+    var events_per_area;
+    var areas;
+    
+    function throwError(jqXHR, textStatus, errorThrown) {
+      if (jqXHR.readyState == 4) {
+        console.log("Http error");
+      } else if (jqXHR.readyState == 0) {
+        console.log("Network error");
+      } else {
+        console.log("Error");
+      }
+    }
+    
+    function formatDate(date) {
+      var options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' };
+      return date.toLocaleDateString("en-US", options) + ' UTC';
+    }
+    
+    function getIcon(size, color) {
+      if (size === 'large') {
+        var x = 25 * 11 / 15;
+        var y = 42 * 11 / 15;
+      } else {
+        var x = 25 * 2 / 3;
+        var y = 42 * 2 / 3;
+      };
+      return L.icon({
+        iconUrl: "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-" + color + ".png",
+        iconRetinaUrl: "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-" + color + ".png",
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/images/marker-shadow.png',
+        iconSize: [x, y],
+        shadowSize: [y / 3 * 2, y],
+        iconAnchor: [x / 2, y],
+        shadowAnchor: [x / 2, y],
+        popupAnchor: [0, -y]
+      });
+    };
+    
+    var normalIconBlue = getIcon('normal', 'blue');
+    var largeIconBlue = getIcon('large', 'blue');
+    var normalIconRed = getIcon('normal', 'red');
+    var largeIconRed = getIcon('large', 'red');
+    
+    function makeClickable(text) {
+      var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+      return text.replace(exp, "<a href='$1' target='_blank' rel='noopener noreferrer'>$1</a>");
+    }
+    
+    function getStyleFor(data) {
+      var fillOpacity;
+      if (data.properties.type == '0') {
+        fillOpacity = .3;
+      } else {
+        fillOpacity = .6;
+      }
+      return {
+        fill: true,
+        fillOpacity: fillOpacity,
+        stroke: true,
+        weight: 1,
+        color: defaultEventFillColor
+      };
+    }
+    
+    function resetSelectedLayer() {
+      if (selectedLayer) {
+        if (selectedLayer.feature !== undefined) {
+          if (selectedLayer.feature.properties.type !== 'city') {
+            selectedLayer.setStyle({ color: defaultEventFillColor });
+          } else {
+            selectedLayer.setIcon(normalIconBlue);
+          };
+        };
+      };
+    };
+    
+    function setTabContentSize() {
+      var height = Math.max(86.66, Math.min($(".ui-tabs-panel:visible").prop("scrollHeight") + $("#eventHeader").outerHeight(true) + $(".ui-tabs-nav").outerHeight(true), maxDialogHeight));
+      if (!isNaN(height)) {
+        dialog.setSize([400, height]);
+        $('#tweets').getNiceScroll().resize();
+      } else {
+        setTimeout(setTabContentSize, 100);
+      }
+    }
+    function setHeader(feature) {
+      if (feature.event.event_id == latestEventRequest) {
+        var url = 'http://www.geonames.org/' + feature.properties.location_ID.slice(2);
+        var name = areas[feature.event.location_ID].properties.full_name;
+        $("#eventHeader").html(
+          "<a href='" + url + "' target='_blank' rel='noopener noreferrer'>" + name + "</a>"
+        );
+      };
+      setTabContentSize();
+    }
+    
+    function setTweetTabContent(feature) {
+      if (feature.event.event_id == latestEventRequest) {
+        var tweets = feature.event.tweets[0];
+        var n_tweets = feature.event.tweets[1];
+        var bottom_message = feature.event.tweets[2];
+        var tweetItems = '';
+        tweets.forEach(function (tweet) {
+          var date = new Date(tweet.date + '.000Z');
+          tweetItems += '<li class="list-group-item">';
+          if (tweet.media !== undefined) {
+            tweetItems += '<img class="image-leaflet-popup" src="' + tweet.media + '">';
+          }
+          tweetItems += '<p style="font-weight:normal;">' + makeClickable(tweet.text) + '</p><a href="https://twitter.com/user/status/' + tweet.id.slice(2) + '" target="_blank" rel="noopener noreferrer"><small>See on Twitter</small></a><small class="pull-right">' + formatDate(date) + '</small></li>';
+        });
+        var tweetContent = '<ul class="list-group">' + tweetItems;
+        if (bottom_message) {
+          tweetContent += '<li class="list-group-item leaflet-popup-last-message"><p style="font-weight:normal; margin-top: 6px; margin-bottom: 6px;">' + bottom_message + '</p></li>';
+        };
+        tweetContent = tweetContent + '</ul>';
+        $("#tweetsContent").html(tweetContent);
+
+        var niceScrollTweets = false;
+        $(function () {
+          niceScrollTweets = $('#tweets').niceScroll({ styler: 'fb', cursorcolor: '#c7c7c7', cursorwidth: '6', cursorborderradius: '10px', cursoropacitymin: 0.5, background: '', spacebarenabled: false, cursorborder: '', zindex: '1000', horizrailenabled: false, autohidemode: false});
+        });
+
+        var tweetImages = $(".image-leaflet-popup");
+        for (var i = 0; i < tweetImages.length; i++) {
+          tweetImages.eq(i).on('load', function () {
+            $('#tweets').getNiceScroll().resize();
+            setTabContentSize();
+          });
+        };
+        setTabContentSize();
+      }
+    }
+    
+    function onEachFeature(feature, layer) {
+      layer.setStyle({ color: defaultEventFillColor });
+      layer.on('mouseover', function (e) {
+        layer.setStyle({ weight: 2.5 });
+      });
+      layer.on('mouseout', function (e) {
+        layer.setStyle({ weight: 1 });
+      });
+      layer.on('click', function (e) {
+        dialog.open();
+        var feature = e.target.feature;
+        resetSelectedLayer();
+        layer.setStyle({ color: 'red' });
+        selectedLayer = layer;
+        timelineControl.pause();
+        if (map.getZoom() < 5) {
+          map.flyToBounds(layer.getBounds(), 5);
+          zoomed = true;
+        };
+        latestEventRequest = feature.event.event_id;
+    
+        setHeader(feature);
+        setTweetTabContent(feature);
+      });
+    }
+    
+    function createTimeline(events_per_area, areas, type, childs) {
+      var options = {
+        type: type,
+        style: function style(data) {
+          return getStyleFor(data);
+        },
+        areas: areas,
+        childs: childs,
+        onEachFeature: onEachFeature
+      };
+      return L.timeline(events_per_area, options = options);
+    }
+    
+    function setFloodArea() {
+      fetch('https://github.com/jensdebruijn/GFM_static_website/raw/main/data.json')
+        .then((response) => response.json())
+        .then((json) => console.log(json));
+      return
+      $.getJSON("https://github.com/jensdebruijn/GFM_static_website/raw/main/data.json.gz").done( function(data) {
+        if (data.message) {
+          alert(data.message);
+          return false;
+        };
+        events_per_area = data.events_per_area;
+        areas = data.areas;
+        var childs = new PruneClusterForLeaflet(120, 20, false);
+        childs.Cluster.Size = 3;
+        childs.PrepareLeafletMarker = function(leafletMarker, data) {
+          leafletMarker.feature = data;
+          leafletMarker.setIcon(normalIconBlue);
+          leafletMarker.on("mouseover", function (e) {
+            if (selectedLayer == leafletMarker) {
+              leafletMarker.setIcon(largeIconRed);
+            } else {
+              leafletMarker.setIcon(largeIconBlue);
+            }
+          }).on("mouseout", function (e) {
+            if (selectedLayer == leafletMarker) {
+              leafletMarker.setIcon(normalIconRed);
+            } else {
+              leafletMarker.setIcon(normalIconBlue);
+            }
+          }).on("click", function(e) {
+            dialog.open();
+            resetSelectedLayer();
+            leafletMarker.setIcon(largeIconRed);
+            selectedLayer = leafletMarker;
+            timelineControl.pause();
+            if (e.zoom !== false && map.getZoom() < 5) {
+              map.flyTo(e.latlng, 5);
+              zoomed = true;
+            };
+            latestEventRequest = leafletMarker.feature.event.event_id;
+            setHeader(leafletMarker.feature);
+            setTweetTabContent(leafletMarker.feature);
+          });
+        };
+        childs.BuildLeafletCluster = function(cluster, position) {
+          var m = new L.Marker(position, {
+            icon: childs.BuildLeafletClusterIcon(cluster)
+          });
+    
+          m.on('click', function() {
+            resetSelectedLayer();
+            var markersArea = childs.Cluster.FindMarkersInArea(cluster.bounds);
+            var b = childs.Cluster.ComputeBounds(markersArea);
+            zoomed = true;
+            selectedLayer = cluster;
+    
+            if (b) {
+              var bounds = new L.LatLngBounds(
+                new L.LatLng(b.minLat, b.maxLng),
+                new L.LatLng(b.maxLat, b.minLng));
+    
+              var zoomLevelBefore = childs._map.getZoom();
+              var zoomLevelAfter = childs._map.getBoundsZoom(bounds, false, new L.Point(20, 20, null));
+    
+              if (zoomLevelAfter === zoomLevelBefore) {
+                childs._map.fire('overlappingmarkers', {
+                  cluster: childs,
+                  markers: markersArea,
+                  center: m.getLatLng(),
+                  marker: m
+                });
+                childs._map.setView(position, zoomLevelAfter);
+              }
+              else {
+                childs._map.flyToBounds(bounds);
+              }
+            }
+          });
+          return m;
+        };
+        var level0Timeline = createTimeline(events_per_area, areas, '0');
+        timelineControl.addTimelines(level0Timeline);
+        level0Timeline.addTo(map);
+        var level1Timeline = createTimeline(events_per_area, areas, '1', childs);
+        timelineControl.addTimelines(level1Timeline);
+        level1Timeline.addTo(map);
+    
+        map.on('zoom', function() {
+          if (map.getZoom() > 4) {
+            if (!map.hasLayer(childs)) {
+              map.addLayer(childs);
+            }
+          } else {
+            map.removeLayer(childs);
+          }
+        })
+    
+        var timelines = timelineControl.timelines;
+        var endOfTimeline = 0;
+        for (var i = 0; i < timelines.length; i++) {
+          if (timelines[i].end > endOfTimeline) {
+            endOfTimeline = timelines[i].end;
+          };
+        };
+        var timelineStartDate = endOfTimeline;
+    
+        $(window).resize(function () {
+          var yAnchor = 10;
+          maxDialogHeight = $('#map').height() - $('.leaflet-control-layers').height() - 48 - yAnchor;
+          var xAnchor = $('#map').width() - 400 - 23;
+          dialog.setLocation([yAnchor, xAnchor])
+          setTabContentSize();
+        });
+    
+        timelineControl.setTime(timelineStartDate, 'init');
+        timelineControl._timeSlider.value = timelineStartDate;
+    
+        $("#load-modal").modal('hide');
+        dataLoadComplete = true;
+        var yAnchor = 10;
+        maxDialogHeight = $('#map').height() - $('.leaflet-control-layers').height() - 48 - yAnchor;
+        var xAnchor = $('#map').width() - 400 - 23;
+        dialog = L.control.dialog({
+          size: [400, 0],
+          minSize: [400, 0],
+          maxSize: [10000, 10000],
+          position: 'topleft',
+          anchor: [yAnchor, xAnchor],
+        });
+    
+        map.on("dialog:updated", function () {
+          setTabContentSize();
+        });
+    
+        var flyToLayer;
+        var content = '<h5 id="eventHeader" style="text-align:center;"></h5><div class="event-tabs" id="tabs"><ul><li><a href="#tweets">Tweets</a></li></ul><div id="tweets"><div class="ui-tabs-panel-content tweetlist-leaflet-dialog" id="tweetsContent"><img id="explanation" src=' + "static/img/explanation_hand.jpg" + '><p align="center">Click on a flood event to display tweets</p></div></div></div>';
+    
+        dialog.setContent(content);
+        dialog.addTo(map).freeze();
+    
+        $('#explanation').imagesLoaded( function() {
+          setTabContentSize();
+        });
+    
+        $(function () {
+          $("#tabs").tabs({
+            activate: function activate(event, ui) {
+              activeTab = ui.newTab.index();
+              setTabContentSize();
+            }
+          });
+        });
+    
+        $(".ui-tabs-panel-content").on('resize ready', function () {
+          setTabContentSize();
+        });
+    
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        throwError(jqXHR, textStatus, errorThrown);
+      });
+      return false;
+    }
+    
+    var map = L.map('map', {
+      maxBounds: [[-75, -210], [75, 280]],
+      zoomSnap: 0,
+      zoomDelta: 1,
+      maxZoom: 12,
+      maxBoundsViscosity: .9,
+      attributionControl: false,
+    });
+    
+    $.notify({
+      message: "Find our paper <i>'A global database of historic and real-time flood events based on social media'</i><br>published in Scientific Data: <a target='_blank' href='https://www.nature.com/articles/s41597-019-0326-9'>nature.com/articles/s41597-019-0326-9</a>",
+      icon: 'glyphicon glyphicon-book'
+      }, {
+      element: "body",
+      type: 'warning',
+      delay: 0,
+      placement: {
+        align: 'left'
+      },
+      offset: {
+        x: 55,
+        y: 25 + $(".navbar").height()
+      },
+      onShow: function() {
+        this.css({'width':'auto','height':'auto'});
+      },
+      z_index: 100000000,
+    });
+
+    $.notify({
+      message: "Twitter has removed the ability to freely listen to the global Twitter heartbeat, which would now cost at least 42000 dollar a month. We had a good run and hope a free tier for academic purposes will be available again sometime in the future. Historic flood events and tweets continue to be available. Thank you.",
+      icon: 'glyphicon glyphicon-warning-sign'
+    }, {
+      element: "body",
+      type: 'danger',
+      delay: 0,
+      placement: {
+        align: 'left'
+      },
+      offset: {
+        x: 55,
+        y: 25 + $(".navbar").height()
+      }
+    });
+
+    function maybeShowLoadingBar() {
+      if (dataLoadComplete == false) {
+        $('#load-modal').modal('show');
+      }
+    }
+    
+    L.control.attribution({ position: 'topright' }).addTo(map);
+    
+    L.easyButton('fa fa-globe fa-lg', function () {
+      map.flyToBounds(homeBounds);
+      zoomed = false;
+    }, 'World View').addTo(map);
+    
+    L.easyButton('fa fa-info-circle fa-lg', function () {
+      $("#info-modal").modal('show');
+    }, 'Info').addTo(map);
+    
+    $('#info-modal').modal('show');
+    
+    $('body').on('hidden.bs.modal', '.modal', function () {
+      $('.modal-toggle').blur();
+    });
+    $('.modal-dismiss').click(function () {
+      $('#info-modal').modal('hide');
+    });
+    
+    $('.modal.info').on('hidden.bs.modal', function () {
+      if (!$('.modal.info').is(':visible')) {
+        maybeShowLoadingBar();
+      }
+    });
+    
+    // $('.modal.info').on('show.bs.modal', function () {
+    //   $('.modal').modal('hide');
+    // });
+    $('.modal').modal('hide');
+    
+    $('.modal.info').on('shown.bs.modal', function () {
+      var id = this.id;
+      $('.modal-body').niceScroll({ styler: 'fb', cursorcolor: '#c7c7c7', cursorwidth: '6', cursorborderradius: '10px', cursoropacitymin: 0.5, background: '', spacebarenabled: false, cursorborder: '', zindex: '1000', horizrailenabled: false, autohidemode: false});
+      $('.modal-body').getNiceScroll().resize();
+    });
+    
+    var bounds = homeBounds;
+    
+    map.fitBounds(bounds).on('click', function (e) {
+      if (selectedLayer && e.originalEvent.target.id == 'map') {
+        if (selectedLayer.feature != undefined) {
+          if (selectedLayer.feature.properties.type !== 'city') {
+            selectedLayer.setStyle({ color: defaultEventFillColor });
+          } else {
+            selectedLayer.setIcon(normalIconBlue);
+          }
+        }
+        if (zoomed == true) {
+          map.flyToBounds(homeBounds);
+          zoomed = false;
+        }
+      }
+    });
+    
+    var timelineControl = L.timelineSliderControl({
+      formatOutput: function formatOutput(date) {
+        var date = new Date(date);
+        return formatDate(date);
+      },
+      showTicks: false,
+      enableKeyboardControls: true,
+      duration: 750000
+    });
+    
+    timelineControl.addTo(map);
+    
+    L.esri.basemapLayer("Imagery").addTo(map);
+    
+    $(document).ready(function () {
+      $("#info-modal").modal('show');
+      setFloodArea();
+    });
+    
+    $('.navbar-brand').on('click', function () {
+      $('.modal').modal('hide');
+    })
+    </script>
+</html>
