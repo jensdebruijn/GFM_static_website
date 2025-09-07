@@ -679,7 +679,7 @@
     
     function setFloodArea() {
       var xhr = new XMLHttpRequest();
-      xhr.open("GET", './data.json.gz', true);
+      xhr.open("GET", 'https://pub-226610eb304b4f809ee4d44d9532ff6b.r2.dev/data.json.gz', true);
       xhr.responseType = "arraybuffer";
       xhr.onload = function () {
         var data = JSON.parse(pako.inflate(xhr.response, {to: 'string'}));
